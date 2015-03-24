@@ -1,0 +1,34 @@
+---
+- name: check os
+  command: cat /etc/redhat-release
+  register: centosVersion
+
+- name: check processor
+  command: uname -a
+  register: processor
+
+- name: install mariadb repo for centos 5 32bit
+  copy: src=MariaDB.repo.5.32 dest=/etc/yum.repos.d/MariaDB.repo
+  when: centosVersion.stdout.find('release 5') != -1 and processor.stdout.find('i686') != -1
+  ignore_errors: True
+
+- name: install mariadb repo for centos 5 64bit
+  copy: src=MariaDB.repo.5.64 dest=/etc/yum.repos.d/MariaDB.repo
+  when: centosVersion.stdout.find('release 5') != -1 and processor.stdout.find('x86_64') != -1
+  ignore_errors: True
+
+- name: install mariadb repo for centos 6 32bit
+  copy: src=MariaDB.repo.6.32 dest=/etc/yum.repos.d/MariaDB.repo
+  when: centosVersion.stdout.find('release 6') != -1 and processor.stdout.find('i686') != -1
+  ignore_errors: True
+
+- name: install mariadb repo for centos 6 64bit
+  copy: src=MariaDB.repo.6.64 dest=/etc/yum.repos.d/MariaDB.repo
+  when: centosVersion.stdout.find('release 6') != -1 and processor.stdout.find('x86_64') != -1
+  ignore_errors: True
+
+- name: install mariadb repo for centos 7 64bit
+  copy: src=MariaDB.repo.7.64 dest=/etc/yum.repos.d/MariaDB.repo
+  when: centosVersion.stdout.find('release 7') != -1 and processor.stdout.find('x86_64') != -1
+  ignore_errors: True
+
